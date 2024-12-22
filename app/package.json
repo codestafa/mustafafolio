@@ -1,5 +1,6 @@
 {
   "name": "app",
+  "proxy": "http://localhost:10000",
   "private": true,
   "version": "0.0.0",
   "type": "module",

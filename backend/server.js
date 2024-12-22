@@ -7,11 +7,10 @@ require("dotenv").config();
 const app = express();
 const corsOptions = {
   origin: [
-    "https://mustafafolio.onrender.com", // Replace with your frontend Render URL
-    "http://localhost:3000", // For local development
-    "http://localhost:10000", // For local development
-    "https://localhost:10000", // For local development
-    "localhost:10000", // For local development
+    "https://mustafafolio.onrender.com", // Frontend Render URL
+    "http://localhost:3000", // Local development
+    "http://localhost:10000", // Local development
+    "localhost", // General localhost development
   ],
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -28,33 +27,50 @@ const { CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN } = process.env;
 let accessToken = null;
 
 async function refreshAccessToken() {
-  const params = new URLSearchParams({
-    grant_type: "refresh_token",
-    refresh_token: REFRESH_TOKEN,
-  });
+  try {
+    const params = new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: REFRESH_TOKEN,
+    });
 
-  const response = await axios.post(TOKEN_ENDPOINT, params, {
-    headers: {
-      Authorization: `Basic ${Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64")}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  });
+    const response = await axios.post(TOKEN_ENDPOINT, params, {
+      headers: {
+        Authorization: `Basic ${Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64")}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
 
-  accessToken = response.data.access_token;
+    accessToken = response.data.access_token;
+    console.log("Access token refreshed successfully.");
+  } catch (error) {
+    console.error("Error refreshing access token:", error.message);
+    throw new Error("Failed to refresh access token.");
+  }
 }
 
 async function getSpotifyData(endpoint) {
-  if (!accessToken) {
-    await refreshAccessToken();
+  try {
+    if (!accessToken) {
+      await refreshAccessToken();
+    }
+
+    const response = await axios.get(endpoint, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      // If unauthorized, refresh the token and retry
+      console.warn("Access token expired. Refreshing...");
+      await refreshAccessToken();
+      return getSpotifyData(endpoint);
+    }
+    console.error("Error fetching Spotify data:", error.message);
+    throw error;
   }
-
-  const response = await axios.get(endpoint, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  return response.data;
 }
 
 app.get("/now-playing", async (req, res) => {
@@ -80,7 +96,7 @@ const frontendPath = path.join(__dirname, "../app/dist");
 app.use(express.static(frontendPath));
 
 // Fallback route for React
-app.get("*", (req, res) => {
+app.get(/^\/(?!now-playing|top-artists).*$/, (req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 

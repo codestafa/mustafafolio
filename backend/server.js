@@ -10,7 +10,8 @@ const corsOptions = {
     "https://mustafafolio.onrender.com", // Replace with your frontend Render URL
     "http://localhost:3000", // For local development
     "http://localhost:10000", // For local development
-
+    "https://localhost:10000", // For local development
+    "localhost:10000", // For local development
   ],
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"],

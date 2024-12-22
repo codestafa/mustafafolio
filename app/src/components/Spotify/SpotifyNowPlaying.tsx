@@ -17,22 +17,31 @@ interface Artist {
 const API_BASE_URL = "http://localhost:3001"; // Replace with your actual backend URL
 const STORAGE_KEY_TRACK = "lastPlayedTrack";
 const STORAGE_KEY_ARTISTS = "topArtists";
-// Set to 24 hours: 24 * 60 * 60 * 1000
-const ARTIST_CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+// Cache duration set to 24 hours (in milliseconds)
+const ARTIST_CACHE_DURATION = 24 * 60 * 60 * 1000;
+
+// Define the default track
+const DEFAULT_TRACK: Track = {
+  albumImageUrl: "https://i.scdn.co/image/ab67616d0000b27359f6085759932516409713b2",
+  artist: "Bladee, Yung Lean",
+  isPlaying: false, // Default to not playing
+  songUrl: "https://open.spotify.com/track/6Lmz74wEY6YdAb8cTAH8EK",
+  title: "Gotham City",
+};
 
 const SpotifyNowPlaying: React.FC = () => {
+  // State to manage the currently displayed track
   const [track, setTrack] = useState<Track | null>(() => {
-    // Load cached track on component mount
     const cachedTrack = localStorage.getItem(STORAGE_KEY_TRACK);
     return cachedTrack ? JSON.parse(cachedTrack) : null;
   });
 
+  // State to manage top artists
   const [artists, setArtists] = useState<Artist[]>(() => {
     const cachedArtists = localStorage.getItem(STORAGE_KEY_ARTISTS);
     const cacheTimestamp = localStorage.getItem(`${STORAGE_KEY_ARTISTS}_timestamp`);
     if (cachedArtists && cacheTimestamp) {
-      const isCacheValid =
-        Date.now() - parseInt(cacheTimestamp, 10) < ARTIST_CACHE_DURATION;
+      const isCacheValid = Date.now() - parseInt(cacheTimestamp, 10) < ARTIST_CACHE_DURATION;
       if (isCacheValid) {
         return JSON.parse(cachedArtists);
       }
@@ -41,15 +50,17 @@ const SpotifyNowPlaying: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([fetchNowPlaying(), fetchTopArtists()]);
-    };
-
+    // Function to fetch the currently playing track
     const fetchNowPlaying = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/now-playing`);
         if (!response.ok) {
           console.error(`Failed to fetch now playing. Status: ${response.status}`);
+          // If no track is stored, store DEFAULT_TRACK and set track to null
+          if (!localStorage.getItem(STORAGE_KEY_TRACK)) {
+            localStorage.setItem(STORAGE_KEY_TRACK, JSON.stringify(DEFAULT_TRACK));
+            setTrack(null); // Display "Currently offline"
+          }
           return;
         }
 
@@ -64,15 +75,27 @@ const SpotifyNowPlaying: React.FC = () => {
             title: nowPlaying.item.name,
           };
 
-          // Store in localStorage
+          // Store the fetched track in localStorage and update state
           localStorage.setItem(STORAGE_KEY_TRACK, JSON.stringify(mappedTrack));
           setTrack(mappedTrack);
+        } else {
+          // No track is currently playing
+          if (!localStorage.getItem(STORAGE_KEY_TRACK)) {
+            localStorage.setItem(STORAGE_KEY_TRACK, JSON.stringify(DEFAULT_TRACK));
+            setTrack(null); // Display "Currently offline"
+          }
         }
       } catch (error) {
         console.error("Failed to fetch now playing:", error);
+        // On fetch failure, if no track is stored, store DEFAULT_TRACK and set track to null
+        if (!localStorage.getItem(STORAGE_KEY_TRACK)) {
+          localStorage.setItem(STORAGE_KEY_TRACK, JSON.stringify(DEFAULT_TRACK));
+          setTrack(null); // Display "Currently offline"
+        }
       }
     };
 
+    // Function to fetch top artists
     const fetchTopArtists = async () => {
       try {
         const cachedArtists = localStorage.getItem(STORAGE_KEY_ARTISTS);
@@ -81,15 +104,11 @@ const SpotifyNowPlaying: React.FC = () => {
         let shouldFetch = true;
 
         if (cachedArtists && cacheTimestamp) {
-          const isCacheValid =
-            Date.now() - parseInt(cacheTimestamp, 10) < ARTIST_CACHE_DURATION;
+          const isCacheValid = Date.now() - parseInt(cacheTimestamp, 10) < ARTIST_CACHE_DURATION;
           if (isCacheValid) {
             setArtists(JSON.parse(cachedArtists));
             shouldFetch = false;
-          } else {
           }
-        } else {
-          console.log("No cached top artists found. Fetching new data...");
         }
 
         if (shouldFetch) {
@@ -100,6 +119,7 @@ const SpotifyNowPlaying: React.FC = () => {
           }
 
           const topArtists = await response.json();
+
           // Adjust based on response structure
           let artistsArray: any[] = [];
 
@@ -119,8 +139,7 @@ const SpotifyNowPlaying: React.FC = () => {
               spotifyUrl: artist.external_urls.spotify,
             }));
 
-
-            // Store in localStorage
+            // Store the fetched artists in localStorage and update state
             localStorage.setItem(STORAGE_KEY_ARTISTS, JSON.stringify(mappedArtists));
             localStorage.setItem(`${STORAGE_KEY_ARTISTS}_timestamp`, Date.now().toString());
 
@@ -134,12 +153,31 @@ const SpotifyNowPlaying: React.FC = () => {
       }
     };
 
+    // Function to initialize data on component mount
+    const fetchData = async () => {
+      // If no track is stored, attempt to fetch now playing
+      if (!localStorage.getItem(STORAGE_KEY_TRACK)) {
+        await fetchNowPlaying();
+      } else {
+        const storedTrack = localStorage.getItem(STORAGE_KEY_TRACK);
+        if (storedTrack) {
+          setTrack(JSON.parse(storedTrack));
+          await fetchNowPlaying(); // Attempt to update the track
+        }
+      }
+
+      // Fetch top artists
+      await fetchTopArtists();
+    };
+
+    // Initialize data
     fetchData();
 
-    // Set interval for fetching now playing every 20 seconds
+    // Set interval to fetch now playing every 20 seconds
     const interval = setInterval(fetchNowPlaying, 20000);
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -151,6 +189,7 @@ const SpotifyNowPlaying: React.FC = () => {
           style={{ height: "150px", width: "336px" }}
         >
           <div className="flex items-center mb-4 space-x-2">
+            {/* Indicator */}
             <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
               <svg width="10" height="10" viewBox="0 0 20 20" fill="none">
                 <path
@@ -159,10 +198,16 @@ const SpotifyNowPlaying: React.FC = () => {
                 />
               </svg>
             </div>
+            {/* Status Text */}
             <span className="text-white font-semibold">
-              {track.isPlaying ? "I'm currently listening to" : "Last played"}
+              {track.title === DEFAULT_TRACK.title
+                ? "Last played"
+                : track.isPlaying
+                ? "Now playing"
+                : "Last played"}
             </span>
           </div>
+          {/* Track Details */}
           <div className="flex items-center space-x-4 bg-gray-800 p-3 rounded-md">
             <img
               src={track.albumImageUrl}
@@ -180,6 +225,7 @@ const SpotifyNowPlaying: React.FC = () => {
           </div>
         </div>
       ) : (
+        // Display "Currently offline" if track is null
         <div
           className="h-24 bg-gray-900 text-gray-400 flex items-center justify-center rounded-md w-full max-w-sm border border-gray-700"
           style={{ height: "150px", width: "336px" }}
@@ -214,6 +260,7 @@ const SpotifyNowPlaying: React.FC = () => {
           </ul>
         </div>
       ) : (
+        // Handle case when no artists are available
         <div className="bg-gray-100 p-4 rounded-md w-full max-w-sm border border-gray-300">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Top Artists</h2>
           <p className="text-gray-700">No artists available.</p>

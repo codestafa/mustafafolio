@@ -1,9 +1,5 @@
 import React from 'react';
 
-import elemint from '../assets/elemint.jpg';
-import wisk from '../assets/wisk.jpg';
-import fantic from '../assets/fantic.jpg';
-
 interface ExperienceItem {
   title: string;
   company: string;
@@ -17,7 +13,7 @@ const experiences: ExperienceItem[] = [
     title: "Software Engineer, DevSecOps (Contract)",
     company: "Wisk Aero (Boeing)",
     duration: "Sep 2024 - Dec 2024",
-    logo: wisk,
+    logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/wisk_semnsj.jpg",
     description: [
       "Streamlined and optimized Google Cloud shared disk storage for simulations using Go, significantly enhancing availability and performance.",
       "Enhanced the Visual Studio Code extension by implementing new features, improving efficiency in requirements tracing and developer workflows.",
@@ -28,7 +24,7 @@ const experiences: ExperienceItem[] = [
     title: "Software Engineer Intern, DevSecOps",
     company: "Wisk Aero (Boeing)",
     duration: "Jun 2024 - Aug 2024",
-    logo: wisk,
+    logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/wisk_semnsj.jpg",
     description: [
       "Developed a Visual Studio Code extension for multiple Boeing and Wisk teams, generating unique IDs for requirements, improving traceability and reducing manual errors by 30.",
       "Integrated Static Analysis tools (Coverity and SonarQube) into GitLab pipelines, enhancing code quality and detecting vulnerabilities early, leading to a 25\% reduction in security flaws.",
@@ -39,7 +35,7 @@ const experiences: ExperienceItem[] = [
     title: "Software Engineer, Frontend (Contract)",
     company: "Fantic",
     duration: "Feb 2024 - May 2024",
-    logo: fantic,
+    logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/fantic_p9xqnw.jpg",
     description: [
       "Refactored JavaScript codebase, enhancing readability and maintainability, and quickly became proficient in navigating and understanding the complex code.",
       "Transformed frontend interfaces by implementing design team's specifications using vanilla CSS and JavaScript, ensuring seamless integration of new designs while maintaining consistent user experience and visual appeal across the platform.",
@@ -50,7 +46,7 @@ const experiences: ExperienceItem[] = [
     title: "Software Engineer Intern, Fullstack",
     company: "Elemint",
     duration: "Aug 2023 - Nov 2023",
-    logo: elemint,
+    logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/elemint_gnc6eb.jpg",
     description: [
       "Optimized user session management by transitioning from PostgreSQL database storage to a Redis session store, collaborating with the DevOps team to test the changes in a cloud environment.",
       "Collaborated with cross-functional teams to ensure proper user experience through the utilization of Tailwind, Storybook, Tw-Merge, and CVA for a Next.js-based project, following up on requirements and design.",

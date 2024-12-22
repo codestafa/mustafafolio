@@ -1,7 +1,10 @@
-import me from '../assets/me.png';
+// src/components/About.tsx
+
 import SpotifyNowPlaying from './Spotify/SpotifyNowPlaying';
 
 function About() {
+  const imageUrl = "https://res.cloudinary.com/djtegdhqw/image/upload/v1734884608/659db454-d991-453b-a294-ca8d3c96bbf5.png";
+
   return (
     <section id="about" className="bg-stone-50">
       {/* Section Title */}
@@ -9,11 +12,11 @@ function About() {
         <div className="flex flex-col lg:flex-row items-center max-w-5xl mx-auto space-y-4 lg:space-y-0 lg:space-x-6">
           {/* Image Section */}
           <img
-              src={me}
-              alt="Mustafa Ali"
-              className="h-auto w-full max-w-xs rounded-lg"
-              loading="lazy"
-            />
+            src={imageUrl}
+            alt="Mustafa Ali"
+            className="h-auto w-full max-w-lg rounded-lg shadow-lg"
+            loading="lazy"
+          />
           {/* Spotify Now Playing Section */}
           <SpotifyNowPlaying />
         </div>
@@ -33,4 +36,3 @@ function About() {
 }
 
 export default About;
-

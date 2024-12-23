@@ -12,9 +12,9 @@ function App() {
   return (
     <>
       <Navbar />
-      <main className="mt-16">
+      <main className="mt-12">
         {/* Main Content */}
-        <div className="p-4 border border-solid border-stone-200 shadow-md rounded-lg">
+        <div className="lg:p-4 border border-solid border-stone-200 shadow-md rounded-lg">
           <About />
           <Experience />
           <Projects />

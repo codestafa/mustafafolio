@@ -186,7 +186,7 @@ const SpotifyNowPlaying: React.FC = () => {
       {track ? (
         <div
           className="bg-gray-900 p-4 rounded-md w-full max-w-sm border border-gray-700"
-          style={{ height: "150px", width: "336px" }}
+          style={{ height: "140px", width: "307px" }}
         >
           <div className="flex items-center mb-4 space-x-2">
             {/* Indicator */}

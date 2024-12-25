@@ -7,6 +7,7 @@ require("dotenv").config();
 const app = express();
 const corsOptions = {
   origin: [
+    "https://mustafafolio-backend.vercel.app/",
     "https://codestafa.vercel.app/", // Frontend Render URL
     "http://localhost:3000", // Local development
     "http://localhost:10000", // Local development

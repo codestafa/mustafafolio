@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "proxy": "https://mustafafolio.onrender.com/",
+  "proxy": "https://codestafa.vercel.app/",
   "description": "",
   "main": "index.js",
   "scripts": {

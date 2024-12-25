@@ -81,7 +81,7 @@ async function getSpotifyData(endpoint) {
   }
 }
 
-app.get("/now-playing", async (req, res) => {
+app.get("/api/now-playing", async (req, res) => {
   try {
     const data = await getSpotifyData(NOW_PLAYING_ENDPOINT);
     res.json(data);
@@ -90,7 +90,7 @@ app.get("/now-playing", async (req, res) => {
   }
 });
 
-app.get("/top-artists", async (req, res) => {
+app.get("/api/top-artists", async (req, res) => {
   try {
     const data = await getSpotifyData(TOP_ARTISTS_ENDPOINT);
     res.json(data);

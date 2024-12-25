@@ -53,7 +53,7 @@ const SpotifyNowPlaying: React.FC = () => {
     // Function to fetch the currently playing track
     const fetchNowPlaying = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/now-playing`);
+        const response = await fetch(`${API_BASE_URL}/api/now-playing`);
         if (!response.ok) {
           console.error(`Failed to fetch now playing. Status: ${response.status}`);
           // If no track is stored, store DEFAULT_TRACK and set track to null
@@ -112,7 +112,7 @@ const SpotifyNowPlaying: React.FC = () => {
         }
 
         if (shouldFetch) {
-          const response = await fetch(`${API_BASE_URL}/top-artists`);
+          const response = await fetch(`${API_BASE_URL}/api/top-artists`);
           if (!response.ok) {
             console.error(`Failed to fetch top artists. Status: ${response.status}`);
             return;

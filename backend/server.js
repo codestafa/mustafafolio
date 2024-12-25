@@ -7,7 +7,7 @@ require("dotenv").config();
 const app = express();
 const corsOptions = {
   origin: [
-    "https://mustafafolio.onrender.com", // Frontend Render URL
+    "https://codestafa.vercel.app/", // Frontend Render URL
     "http://localhost:3000", // Local development
     "http://localhost:10000", // Local development
     "localhost", // General localhost development
@@ -19,7 +19,7 @@ const corsOptions = {
 app.use(
   cors({
     credentials: true, // This is important.
-    origin: 'https://mustafafolio.onrender.com/'
+    origin: 'https://codestafa.vercel.app/'
   }),
 );
 

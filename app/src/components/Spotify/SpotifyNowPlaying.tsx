@@ -14,7 +14,7 @@ interface Artist {
   spotifyUrl: string;
 }
 
-const API_BASE_URL = "https://codestafa.vercel.app"; // Replace with your actual backend URL
+const API_BASE_URL = "https://mustafafolio-backend.vercel.app"; // Replace with your actual backend URL
 const STORAGE_KEY_TRACK = "lastPlayedTrack";
 const STORAGE_KEY_ARTISTS = "topArtists";
 // Cache duration set to 24 hours (in milliseconds)

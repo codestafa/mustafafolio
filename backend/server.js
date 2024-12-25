@@ -5,25 +5,25 @@ const path = require("path");
 require("dotenv").config();
 
 const app = express();
+
+const allowedOrigins = [
+  "https://mustafafolio-backend.vercel.app",
+  "https://codestafa.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:10000",
+  "localhost"
+];
+
 const corsOptions = {
-  origin: [
-    "https://mustafafolio-backend.vercel.app/",
-    "https://codestafa.vercel.app/", // Frontend Render URL
-    "http://localhost:3000", // Local development
-    "http://localhost:10000", // Local development
-    "localhost", // General localhost development
-  ],
+  origin: allowedOrigins,
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 };
 
-app.use(
-  cors({
-    credentials: true, // This is important.
-    origin: 'https://mustafafolio-backend.vercel.app/'
-  }),
-);
+app.use(cors(corsOptions));
 
+// Spotify endpoints
 const TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 const NOW_PLAYING_ENDPOINT = "https://api.spotify.com/v1/me/player/currently-playing";
 const TOP_ARTISTS_ENDPOINT = "https://api.spotify.com/v1/me/top/artists?limit=7";
@@ -69,7 +69,6 @@ async function getSpotifyData(endpoint) {
     return response.data;
   } catch (error) {
     if (error.response && error.response.status === 401) {
-      // If unauthorized, refresh the token and retry
       console.warn("Access token expired. Refreshing...");
       await refreshAccessToken();
       return getSpotifyData(endpoint);

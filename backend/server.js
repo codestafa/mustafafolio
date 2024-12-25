@@ -20,7 +20,7 @@ const corsOptions = {
 app.use(
   cors({
     credentials: true, // This is important.
-    origin: 'https://codestafa.vercel.app/'
+    origin: 'https://mustafafolio-backend.vercel.app/'
   }),
 );
 

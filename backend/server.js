@@ -11,7 +11,9 @@ const allowedOrigins = [
   "https://codestafa.vercel.app",
   "http://localhost:3000",
   "http://localhost:10000",
-  "localhost"
+  "localhost",
+  "mustafafolio-backend.vercel.app",
+  "codestafa.vercel.app"
 ];
 
 const corsOptions = {
@@ -45,6 +47,7 @@ async function refreshAccessToken() {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+    console.log(response)
 
     accessToken = response.data.access_token;
     console.log("Access token refreshed successfully.");

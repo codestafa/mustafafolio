@@ -7,12 +7,10 @@ require("dotenv").config();
 const app = express();
 
 const allowedOrigins = [
-  "https://mustafafolio-backend.vercel.app",
   "https://codestafa.vercel.app",
   "http://localhost:3000",
   "http://localhost:10000",
   "localhost",
-  "mustafafolio-backend.vercel.app",
   "codestafa.vercel.app"
 ];
 

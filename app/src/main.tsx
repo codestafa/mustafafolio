@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css'; // Tailwind entry point
 import Contact from './components/Contact';
+import { Analytics } from "@vercel/analytics/react"
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       {/* Main Application */}
       <div className="xl:ml-72">
         <App />
+        <Analytics/>
       </div>
     </div>
   </React.StrictMode>

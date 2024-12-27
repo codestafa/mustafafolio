@@ -26,7 +26,7 @@ const experiences: ExperienceItem[] = [
     duration: "Jun 2024 - Aug 2024",
     logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/wisk_semnsj.jpg",
     description: [
-      "Developed a Visual Studio Code extension for multiple Boeing and Wisk teams, generating unique IDs for requirements, improving traceability and reducing manual errors by 30.",
+      "Developed a Visual Studio Code extension for multiple Boeing and Wisk teams, generating unique IDs for requirements, improving traceability and reducing manual errors by 30\%.",
       "Integrated Static Analysis tools (Coverity and SonarQube) into GitLab pipelines, enhancing code quality and detecting vulnerabilities early, leading to a 25\% reduction in security flaws.",
       "Designed and implemented a Docker container for the Static Analysis process, streamlining development workflows and reducing build times by 20%."
     ],

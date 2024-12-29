@@ -10,7 +10,7 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
   {
-    title: "Software Engineer, DevSecOps (Contract)",
+    title: "Software Engineer (Contract)",
     company: "Wisk Aero (Boeing)",
     duration: "Sep 2024 - Dec 2024",
     logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/wisk_semnsj.jpg",
@@ -21,7 +21,7 @@ const experiences: ExperienceItem[] = [
     ]
   },
   {
-    title: "Software Engineer Intern, DevSecOps",
+    title: "Software Engineer Intern",
     company: "Wisk Aero (Boeing)",
     duration: "Jun 2024 - Aug 2024",
     logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/wisk_semnsj.jpg",
@@ -32,7 +32,7 @@ const experiences: ExperienceItem[] = [
     ],
   },
   {
-    title: "Software Engineer, Frontend (Contract)",
+    title: "Software Engineer (Contract)",
     company: "Fantic",
     duration: "Feb 2024 - May 2024",
     logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/fantic_p9xqnw.jpg",
@@ -43,7 +43,7 @@ const experiences: ExperienceItem[] = [
     ],
   },
   {
-    title: "Software Engineer Intern, Fullstack",
+    title: "Software Engineer Intern",
     company: "Elemint",
     duration: "Aug 2023 - Nov 2023",
     logo: "https://res.cloudinary.com/djtegdhqw/image/upload/v1734882078/elemint_gnc6eb.jpg",

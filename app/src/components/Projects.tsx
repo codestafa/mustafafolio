@@ -42,7 +42,7 @@ const projects: Project[] = [
 const Projects: React.FC = () => {
   return (
     <section id="projects" className="bg-stone-50 p-5">
-      <h1 className="text-4xl font-bold text-indigo-600 mb-12 text-center">Projects</h1>
+      <h1 className="text-4xl font-bold text-indigo-600 mb-12 text-center">Technical Projects</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {projects.map((project, index) => (
           <div
